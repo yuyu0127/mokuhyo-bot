@@ -14,6 +14,7 @@ def handle_command():
     user: str = request.form.get('user_id')
     type: str = request.form.get('command')
     text: str = request.form.get('text')
+    print(request.form)
     if type == '/mokuhyo':
         print(text)
 
