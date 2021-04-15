@@ -42,6 +42,8 @@ def handle_command():
 @app.route('/interactive', methods=["POST"])
 def handle_interactive():
     print(request.form)
+    slackapi.post_text('おめでとう！')
+    return '', 200
 
 
 if __name__ == '__main__':
