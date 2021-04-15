@@ -36,7 +36,7 @@ def handle_command():
         'blocks': blocks
     }
 
-    return jsonify(json_dict)
+    return jsonify(json_dict), 200
 
 
 @app.route('/interactive', methods=['POST'])
@@ -49,7 +49,7 @@ def handle_interactive():
         'text': text
     }
 
-    return jsonify(json_dict)
+    return jsonify(json_dict), 200
 
 
 if __name__ == '__main__':
