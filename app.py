@@ -17,7 +17,7 @@ app = Flask(__name__)
 
 @app.route('/command', methods=['POST'])
 def handle_command():
-    print(request.form)
+    print(request.form.to_dict())
     workspace_name: str = request.form.get('team_domain')
     user: str = request.form.get('user_id')
     type: str = request.form.get('command')
@@ -41,9 +41,15 @@ def handle_command():
 
 @app.route('/interactive', methods=['POST'])
 def handle_interactive():
-    print(request.form)
-    slackapi.post_message(text='おめでとう！', response_type='ephemeral',)
-    return '', 200
+    print(request.form.to_dict())
+
+    text = 'おめでとう！'
+    json_dict = {
+        'response_type': 'ephemeral',
+        'text': text
+    }
+
+    return jsonify(json_dict)
 
 
 if __name__ == '__main__':
