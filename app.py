@@ -21,15 +21,15 @@ def handle_command():
 
     blocks = [
         blockkit.section('今日の目標は達成できたかな？'),
-        blockkit.button('できた！', 'True', 'completed'),
-        blockkit.button('できなかった', 'False', 'completed'),
+        # blockkit.button('できた！', 'True', 'completed'),
+        # blockkit.button('できなかった', 'False', 'completed'),
     ]
     json_dict = {
         'response_type': 'in_channel',
         'blocks': blocks
     }
 
-    return Response(response=json.dumps(json_dict), status=200)
+    return jsonify(json_dict)
 
 
 if __name__ == '__main__':
