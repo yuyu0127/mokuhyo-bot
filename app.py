@@ -20,10 +20,10 @@ def handle_command():
         print(text)
 
     blocks = [
-        blockkit.section('今日の目標は達成できたかな？'),
+        blockkit.section('Test'),
         blockkit.actions([
-            blockkit.button('できた！', 'True', 'completed'),
-            blockkit.button('できなかった', 'False', 'completed'),
+            blockkit.button('A', 'True', 'completed'),
+            blockkit.button('B', 'False', 'completed'),
         ])
     ]
     json_dict = {
