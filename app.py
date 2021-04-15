@@ -1,37 +1,47 @@
 from flask import Flask, jsonify, request, Response
-
+import os
 import json
 import blockkit
 import slackapi
+import psycopg2
+
+DATABASE_URL = os.environ['DATABASE_URL']
+
+
+def get_connection():
+    return psycopg2.connect(DATABASE_URL, sslmode='require')
+
 
 app = Flask(__name__)
 
 
 @app.route('/command', methods=["POST"])
 def handle_command():
-    print(request.form.to_dict())
+    print(request.form)
     workspace_name: str = request.form.get('team_domain')
     user: str = request.form.get('user_id')
     type: str = request.form.get('command')
     text: str = request.form.get('text')
-    print(request.form)
-
-    if type == '/mokuhyo':
-        print(text)
 
     blocks = [
         blockkit.section('今日の目標は達成できたかな？'),
         blockkit.actions([
-            blockkit.button('できた！', 'completed', 'True', style='primary'),
-            blockkit.button('できなかった', 'completed', 'False'),
+            blockkit.button('できた！✋', 'completed', 'True', style='primary'),
+            blockkit.button('できなかった…', 'completed', 'False'),
         ])
     ]
+
     json_dict = {
         'response_type': 'in_channel',
         'blocks': blocks
     }
 
     return jsonify(json_dict)
+
+
+@app.route('/interactive', methods=["POST"])
+def handle_interactive():
+    print(request.form)
 
 
 if __name__ == '__main__':
