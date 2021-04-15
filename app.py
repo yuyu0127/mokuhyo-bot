@@ -15,7 +15,7 @@ def get_connection():
 app = Flask(__name__)
 
 
-@app.route('/command', methods=["POST"])
+@app.route('/command', methods=['POST'])
 def handle_command():
     print(request.form)
     workspace_name: str = request.form.get('team_domain')
@@ -32,17 +32,17 @@ def handle_command():
     ]
 
     json_dict = {
-        'response_type': 'in_channel',
+        'response_type': 'ephemeral',
         'blocks': blocks
     }
 
     return jsonify(json_dict)
 
 
-@app.route('/interactive', methods=["POST"])
+@app.route('/interactive', methods=['POST'])
 def handle_interactive():
     print(request.form)
-    slackapi.post_text('おめでとう！')
+    slackapi.post_message(text='おめでとう！', response_type='ephemeral',)
     return '', 200
 
 
