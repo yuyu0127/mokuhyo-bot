@@ -1,7 +1,7 @@
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, Response
 
+import json
 import blockkit
-import emojigen
 import slackapi
 
 app = Flask(__name__)
@@ -15,10 +15,21 @@ def handle_command():
     type: str = request.form.get('command')
     text: str = request.form.get('text')
     print(request.form)
+
     if type == '/mokuhyo':
         print(text)
 
-    return 'OK', 200
+    blocks = [
+        blockkit.section('今日の目標は達成できたかな？'),
+        blockkit.button('できた！', 'True', 'completed'),
+        blockkit.button('できなかった', 'False', 'completed'),
+    ]
+    json_dict = {
+        'response_type': 'in_channel',
+        'blocks': blocks
+    }
+
+    return Response(response=json.dumps(json_dict), status=200)
 
 
 if __name__ == '__main__':
