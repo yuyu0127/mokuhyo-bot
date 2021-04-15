@@ -44,12 +44,9 @@ def handle_interactive():
     print(request.form.to_dict())
 
     text = 'おめでとう！'
-    json_dict = {
-        'response_type': 'ephemeral',
-        'text': text
-    }
+    slackapi.post_message(text=text, response_type='ephemeral')
 
-    return jsonify(json_dict), 200
+    return '', 200
 
 
 if __name__ == '__main__':
