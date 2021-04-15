@@ -22,7 +22,7 @@ def handle_command():
     blocks = [
         blockkit.section('今日の目標は達成できたかな？'),
         blockkit.actions([
-            blockkit.button('できた！', 'completed', 'True'),
+            blockkit.button('できた！', 'completed', 'True', style='primary'),
             blockkit.button('できなかった', 'completed', 'False'),
         ])
     ]
