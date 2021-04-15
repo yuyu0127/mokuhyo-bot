@@ -45,6 +45,7 @@ def handle_interactive():
 
     text = 'おめでとう！'
     payload = json.loads(request.form.to_dict()['payload'])
+    print(payload)
     url = payload['response_url']
     slackapi.post_message_to(url, text=text, response_type='ephemeral')
     return '', 200
