@@ -26,7 +26,7 @@ def handle_command():
             blockkit.section(f'今日の目標は `{text}` だね！\nみんなに宣言する？'),
             blockkit.actions([
                 blockkit.button('する！✋', 'declare', 'True', style='primary'),
-                blockkit.button('しない', 'declare', 'False', style='primary'),
+                blockkit.button('しない', 'declare', 'False'),
             ])
         ]
         json_dict = {
