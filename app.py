@@ -31,6 +31,7 @@ def handle_command():
         ]
         json_dict = {
             'response_type': 'ephemeral',
+            'replace_original': True,
             'blocks': blocks
         }
         return jsonify(json_dict), 200
