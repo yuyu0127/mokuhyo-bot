@@ -15,22 +15,9 @@ def handle_command():
     text: str = request.form.get('text')
 
     if type == '/mokuhyo':
-        pass
-
-    blocks = [
-        blockkit.section('今日の目標は達成できたかな？'),
-        blockkit.actions([
-            blockkit.button('できた！✋', 'completed', 'True', style='primary'),
-            blockkit.button('できなかった…', 'completed', 'False'),
-        ])
-    ]
-
-    json_dict = {
-        'response_type': 'ephemeral',
-        'blocks': blocks
-    }
-
-    return jsonify(json_dict), 200
+        reply_text = f'今日の目標は `{text}` だね！\n一歩一歩積み重ねていこう！'
+        return reply_text, 200
+    return '', 200
 
 
 @app.route('/interactive', methods=['POST'])
@@ -43,6 +30,21 @@ def handle_interactive():
     url = payload['response_url']
     slackapi.post_message_to(url, text=text, response_type='ephemeral')
     return '', 200
+
+
+def check():
+    blocks = [
+        blockkit.section('今日の目標は達成できたかな？'),
+        blockkit.actions([
+            blockkit.button('できた！✋', 'completed', 'True', style='primary'),
+            blockkit.button('できなかった…', 'completed', 'False'),
+        ])
+    ]
+
+    json_dict = {
+        'response_type': 'ephemeral',
+        'blocks': blocks
+    }
 
 
 if __name__ == '__main__':
