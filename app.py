@@ -1,9 +1,13 @@
 from flask import Flask, jsonify, request, Response
 import json
 import blockkit
+import os
 import slackapi
 
 app = Flask(__name__)
+
+
+WEBHOOK_URL = os.environ.get('WEBHOOK_URL')
 
 
 @app.route('/command', methods=['POST'])
@@ -15,8 +19,18 @@ def handle_command():
     text: str = request.form.get('text')
 
     if type == '/mokuhyo':
-        reply_text = f'今日の目標は `{text}` だね！\n一歩一歩積み重ねていこう！'
-        return reply_text, 200
+        blocks = [
+            blockkit.section(f'今日の目標は `{text}` だね！\nみんなに宣言する？'),
+            blockkit.actions([
+                blockkit.button('する！✋', 'declare', 'True', style='primary'),
+                blockkit.button('しない', 'declare', 'False', style='primary'),
+            ])
+        ]
+        json_dict = {
+            'response_type': 'ephemeral',
+            'blocks': blocks
+        }
+        return jsonify(json_dict), 200
     return '', 200
 
 
@@ -24,11 +38,10 @@ def handle_command():
 def handle_interactive():
     print(request.form.to_dict())
 
-    text = 'おめでとう！'
     payload = json.loads(request.form.to_dict()['payload'])
     print(payload)
     url = payload['response_url']
-    slackapi.post_message_to(url, text=text, response_type='ephemeral')
+    slackapi.post_message(url, text=payload, response_type='ephemeral')
     return '', 200
 
 
