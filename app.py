@@ -1,16 +1,7 @@
 from flask import Flask, jsonify, request, Response
-import os
 import json
 import blockkit
 import slackapi
-import psycopg2
-
-DATABASE_URL = os.environ['DATABASE_URL']
-
-
-def get_connection():
-    return psycopg2.connect(DATABASE_URL, sslmode='require')
-
 
 app = Flask(__name__)
 
@@ -22,6 +13,9 @@ def handle_command():
     user: str = request.form.get('user_id')
     type: str = request.form.get('command')
     text: str = request.form.get('text')
+
+    if type == '/mokuhyo':
+        pass
 
     blocks = [
         blockkit.section('今日の目標は達成できたかな？'),
