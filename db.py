@@ -1,6 +1,5 @@
 import os
 import psycopg2
-from dotenv.main import load_dotenv
 from psycopg2.extras import DictCursor
 
 DATABASE_URL = os.environ['DATABASE_URL']
