@@ -9,7 +9,7 @@ def get_connection():
     return psycopg2.connect(DATABASE_URL, sslmode='require')
 
 
-def insert(created_at, user_id, content):
+def register_goal(created_at, user_id, content):
     with get_connection() as conn:
         with conn.cursor() as cur:
             cur.execute(

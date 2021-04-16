@@ -1,9 +1,10 @@
 from flask import Flask, jsonify, request, Response
 import json
 import blockkit
+import db
 import os
 import slackapi
-
+from datetime import datetime
 app = Flask(__name__)
 
 
@@ -12,13 +13,15 @@ WEBHOOK_URL = os.environ.get('WEBHOOK_URL')
 
 @app.route('/command', methods=['POST'])
 def handle_command():
-    print(request.form.to_dict())
-    workspace_name: str = request.form.get('team_domain')
-    user: str = request.form.get('user_id')
-    type: str = request.form.get('command')
-    text: str = request.form.get('text')
+    payload = request.form.to_dict()
+    print(payload)
+    workspace_name: str = payload['team_domain']
+    user_id: str = payload['user_id']
+    type: str = payload['command']
+    text: str = payload['text']
 
     if type == '/mokuhyo':
+        db.register_goal(datetime.now(), user_id, text)
         blocks = [
             blockkit.section(f'今日の目標は `{text}` だね！\nみんなに宣言する？'),
             blockkit.actions([
