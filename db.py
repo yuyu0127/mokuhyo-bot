@@ -1,4 +1,5 @@
 import os
+
 import psycopg2
 from psycopg2.extras import DictCursor
 
@@ -32,3 +33,22 @@ def fetch_goal(user_id):
                 'SELECT * FROM goal WHERE user_id = %s AND id = (SELECT max(id) FROM goal)', (user_id, ))
             goal = cur.fetchone()
             return dict(goal)
+
+
+def fetch_goals():
+    with get_connection() as conn:
+        with conn.cursor(cursor_factory=DictCursor) as cur:
+            cur.execute('''
+                SELECT *
+                FROM goal AS m
+                WHERE NOT EXISTS (
+                    SELECT 1
+                    FROM goal AS s
+                    WHERE m.user_id = s.user_id
+                    AND m.id < s.id
+                );
+            ''')
+            goals = []
+            for row in cur:
+                goals.append(dict(row))
+            return goals
