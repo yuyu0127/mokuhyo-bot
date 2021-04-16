@@ -13,7 +13,7 @@ def register_goal(created_at, user_id, content):
     with get_connection() as conn:
         with conn.cursor() as cur:
             cur.execute(
-                'INSERT INTO goal (created_at, user_id, content) VALUES (%s, %s, %s)', (created_at, user_id, content))
+                'INSERT INTO goal (created_at, user_id, content, completed) VALUES (%s, %s, %s, False)', (created_at, user_id, content))
         conn.commit()
 
 

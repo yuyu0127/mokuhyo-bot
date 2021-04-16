@@ -44,7 +44,8 @@ def handle_interactive():
     payload = json.loads(request.form.to_dict()['payload'])
     print(payload)
     url = payload['response_url']
-    slackapi.post_message(url, text=payload, response_type='ephemeral')
+    slackapi.post_message(url, text=json.dumps(
+        payload), response_type='ephemeral')
     return '', 200
 
 
