@@ -41,9 +41,9 @@ def handle_command():
 def handle_interactive():
     payload = json.loads(request.form.to_dict()['payload'])
     resp_url = payload['response_url']
-    actions = payload['actions']
-    act_value = actions['value']
-    act_id = actions['action_id']
+    action = payload['actions'][0]
+    act_value = action['value']
+    act_id = action['action_id']
     user_id = payload['user']['id']
 
     if act_value == 'declare' and act_id == 'True':
