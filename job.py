@@ -1,5 +1,4 @@
 import os
-from re import S
 import slackapi
 import db
 
