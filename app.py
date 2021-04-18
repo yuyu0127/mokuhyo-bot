@@ -48,6 +48,10 @@ def handle_interactive():
     act_id = action['action_id']
     user_id = payload['user']['id']
 
+    channel_id = payload['container']['channel_id']
+    message_ts = payload['container']['message_ts']
+    slackapi.delete_message(channel_id, message_ts)
+
     if act_value == 'declare' and act_id == 'True':
         goal = db.fetch_goal(user_id)
         text = f'<@{user_id}> さんが、目標 `{goal["content"]}` を宣言しました！📝'
