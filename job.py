@@ -26,6 +26,7 @@ def check(goal):
 for goal in db.fetch_goals():
     print(goal)
     try:
-        check(goal)
+        if goal['completed'] == None:
+            check(goal)
     except Exception as e:
         print(e)
