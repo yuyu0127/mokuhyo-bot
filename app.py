@@ -58,20 +58,5 @@ def handle_interactive():
     return '', 200
 
 
-def check():
-    blocks = [
-        blockkit.section('今日の目標は達成できたかな？'),
-        blockkit.actions([
-            blockkit.button('できた！✋', 'completed', 'True', style='primary'),
-            blockkit.button('できなかった…', 'completed', 'False'),
-        ])
-    ]
-
-    json_dict = {
-        'response_type': 'ephemeral',
-        'blocks': blocks
-    }
-
-
 if __name__ == '__main__':
     app.run()
