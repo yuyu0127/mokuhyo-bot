@@ -48,11 +48,6 @@ def handle_interactive():
     act_id = action['action_id']
     user_id = payload['user']['id']
 
-    channel_id = payload['container']['channel_id']
-    message_ts = payload['container']['message_ts']
-    res = slackapi.delete_message(channel_id, message_ts)
-    print(res.json())
-
     if act_value == 'declare' and act_id == 'True':
         goal = db.fetch_goal(user_id)
         text = f'<@{user_id}> さんが、目標 `{goal["content"]}` を宣言しました！📝'
@@ -63,12 +58,16 @@ def handle_interactive():
             goal = db.fetch_goal(user_id)
             text = f'<@{user_id}> さんが、目標 `{goal["content"]}` を達成したようです😊'
             slackapi.webhook_message(WEBHOOK_URL, text=text)
-            return '達成おめでとう！', 200
         else:
             db.set_completed(user_id, False)
-            return '次また頑張ろう！', 200
 
-    return '', 200
+    resp_payload = {
+        'response_type': 'ephemeral',
+        'text': '',
+        'replace_original': True,
+        'delete_original': True
+    }
+    return jsonify(resp_payload), 200
 
 
 if __name__ == '__main__':
