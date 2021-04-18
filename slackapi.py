@@ -51,5 +51,6 @@ def fetch_im_channel_id(user_id):
     }
     data = json.dumps(payload).encode('utf8')
     res = requests.post(url, data=data, headers=headers)
+    print(res.json(), res.content)
     id = res.json()['channel']['id']
     return id
