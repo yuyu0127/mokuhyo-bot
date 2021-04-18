@@ -2,6 +2,7 @@ import json
 import os
 
 import requests
+from requests.models import Response
 
 __import__('dotenv').load_dotenv()
 XOXB_TOKEN = os.environ.get('XOXB_TOKEN')
@@ -32,7 +33,7 @@ def post_message(channel_id, **kwargs):
     }
     res = requests.post(url, data=json.dumps(
         payload).encode('utf8'), headers=headers)
-    return res.json()
+    return res
 
 
 def post_direct_message(user_id, **kwargs):

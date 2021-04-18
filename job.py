@@ -8,6 +8,8 @@ WEBHOOK_URL = os.environ.get('WEBHOOK_URL')
 for goal in db.fetch_goals():
     print(goal)
     try:
-        slackapi.post_direct_message(goal['user_id'], text=goal['content'])
+        res = slackapi.post_direct_message(
+            goal['user_id'], text=goal['content'])
+        print(res.json())
     except Exception as e:
         print(e)
