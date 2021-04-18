@@ -10,7 +10,7 @@ XOXB_TOKEN = os.environ.get('XOXB_TOKEN')
 def webhook_message(url, **kwargs):
     payload = kwargs
     print(url, payload)
-    return requests.post(url, data=json.dumps(payload).encode('utf8'), headers={'Content-Type': 'application/json'})
+    return requests.post(url, data=json.dumps(payload).encode('utf8'), headers={'Content-Type': 'application/json;charset=UTF-8'})
 
 
 def webhook_text(url, text):
@@ -24,7 +24,7 @@ def webhook_blocks(url, blocks):
 def post_message(channel_id, **kwargs):
     url = '	https://slack.com/api/chat.postMessage'
     headers = {
-        'Content-Type': 'application/json',
+        'Content-Type': 'application/json;charset=UTF-8',
         'Authorization': 'Bearer ' + XOXB_TOKEN
     }
     payload = {
@@ -43,7 +43,7 @@ def post_direct_message(user_id, **kwargs):
 def fetch_im_channel_id(user_id):
     url = 'https://slack.com/api/conversations.open'
     headers = {
-        'Content-Type': 'application/json',
+        'Content-Type': 'application/json;charset=UTF-8',
         'Authorization': 'Bearer ' + XOXB_TOKEN
     }
     payload = {
