@@ -41,6 +41,7 @@ def handle_command():
 @app.route('/interactive', methods=['POST'])
 def handle_interactive():
     payload = json.loads(request.form.to_dict()['payload'])
+    print('Interactive Payload', payload)
     resp_url = payload['response_url']
     action = payload['actions'][0]
     act_value = action['value']
@@ -49,7 +50,7 @@ def handle_interactive():
 
     if act_value == 'declare' and act_id == 'True':
         goal = db.fetch_goal(user_id)
-        text = f'<@{user_id}> さんが、今日の目標📝 を宣言しました！\n`{goal["content"]}`'
+        text = f'<@{user_id}> さんが、目標 `{goal["content"]}` を宣言しました！📝'
         slackapi.webhook_message(WEBHOOK_URL, text=text)
     if act_value == 'completed':
         if act_id == 'True':
@@ -57,6 +58,7 @@ def handle_interactive():
             goal = db.fetch_goal(user_id)
             text = f'<@{user_id}> さんが、目標 `{goal["content"]}` を達成したようです😊'
             slackapi.webhook_message(WEBHOOK_URL, text=text)
+            return '達成おめでとう！', 200
         else:
             db.set_completed(user_id, False)
             return '次また頑張ろう！', 200
