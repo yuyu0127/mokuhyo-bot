@@ -38,7 +38,7 @@ def post_message(channel_id, **kwargs):
 
 
 def delete_message(channel_id, ts):
-    url = '		https://slack.com/api/chat.delete'
+    url = 'https://slack.com/api/chat.delete'
     headers = {
         'Content-Type': 'application/json;charset=UTF-8',
         'Authorization': 'Bearer ' + XOXB_TOKEN
