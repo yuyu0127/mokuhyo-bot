@@ -3,7 +3,7 @@ import os
 
 import requests
 
-# __import__('dotenv').load_dotenv()
+__import__('dotenv').load_dotenv()
 XOXB_TOKEN = os.environ.get('XOXB_TOKEN')
 
 
