@@ -50,7 +50,8 @@ def handle_interactive():
 
     channel_id = payload['container']['channel_id']
     message_ts = payload['container']['message_ts']
-    slackapi.delete_message(channel_id, message_ts)
+    res = slackapi.delete_message(channel_id, message_ts)
+    print(res.json())
 
     if act_value == 'declare' and act_id == 'True':
         goal = db.fetch_goal(user_id)
