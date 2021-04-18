@@ -52,6 +52,7 @@ def handle_interactive():
         text = f'<@{user_id}> さんが、今日の目標📝 を宣言しました！\n`{goal["content"]}`'
         slackapi.webhook_message(WEBHOOK_URL, text=text)
     if act_value == 'completed' and act_id == 'True':
+        goal = db.fetch_goal(user_id)
         text = f'<@{user_id}> さんが、目標 `{goal["content"]}` を達成したようです😊'
         slackapi.webhook_message(WEBHOOK_URL, text=text)
 
