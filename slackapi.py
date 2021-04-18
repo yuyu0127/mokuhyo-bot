@@ -37,6 +37,21 @@ def post_message(channel_id, **kwargs):
     return res
 
 
+def delete_message(channel_id, ts):
+    url = '		https://slack.com/api/chat.delete'
+    headers = {
+        'Content-Type': 'application/json;charset=UTF-8',
+        'Authorization': 'Bearer ' + XOXB_TOKEN
+    }
+    payload = {
+        'channel': channel_id,
+        'ts': ts
+    }
+    res = requests.post(url, data=json.dumps(
+        payload).encode('utf8'), headers=headers)
+    return res
+
+
 def post_direct_message(user_id, **kwargs):
     channel_id = fetch_im_channel_id(user_id)
     return post_message(channel_id, **kwargs)
