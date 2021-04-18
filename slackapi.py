@@ -3,6 +3,7 @@ import os
 
 import requests
 
+# __import__('dotenv').load_dotenv()
 XOXB_TOKEN = os.environ.get('XOXB_TOKEN')
 
 
@@ -20,8 +21,7 @@ def webhook_blocks(url, blocks):
     return webhook_message(url, blocks=blocks)
 
 
-def post_direct_message(user_id, **kwargs):
-    channel_id = fetch_im_channel_id(user_id)
+def post_message(channel_id, **kwargs):
     url = '	https://slack.com/api/chat.postMessage'
     headers = {
         'Content-Type': 'application/json',
@@ -33,6 +33,11 @@ def post_direct_message(user_id, **kwargs):
     return requests.post(url, data=json.dumps(payload).encode('utf8'), headers=headers)
 
 
+def post_direct_message(user_id, **kwargs):
+    channel_id = fetch_im_channel_id(user_id)
+    return post_message(channel_id)
+
+
 def fetch_im_channel_id(user_id):
     url = 'https://slack.com/api/conversations.open'
     headers = {
@@ -40,9 +45,9 @@ def fetch_im_channel_id(user_id):
         'Authorization': 'Bearer ' + XOXB_TOKEN
     }
     payload = {
-        'users': [user_id]
+        'users': user_id
     }
-    res = requests.post(url, data=json.dumps(
-        payload).encode('utf8'), headers=headers)
+    data = json.dumps(payload).encode('utf8')
+    res = requests.post(url, data=data, headers=headers)
     id = res['channel']['id']
     return id

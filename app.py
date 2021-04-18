@@ -7,7 +7,7 @@ import slackapi
 from datetime import datetime
 app = Flask(__name__)
 
-
+# __import__('dotenv').load_dotenv()
 WEBHOOK_URL = os.environ.get('WEBHOOK_URL')
 
 
