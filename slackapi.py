@@ -31,6 +31,7 @@ def post_message(channel_id, **kwargs):
     payload = {
         'channel': channel_id
     }
+    payload.update(kwargs)
     res = requests.post(url, data=json.dumps(
         payload).encode('utf8'), headers=headers)
     return res
@@ -38,7 +39,7 @@ def post_message(channel_id, **kwargs):
 
 def post_direct_message(user_id, **kwargs):
     channel_id = fetch_im_channel_id(user_id)
-    return post_message(channel_id)
+    return post_message(channel_id, **kwargs)
 
 
 def fetch_im_channel_id(user_id):
