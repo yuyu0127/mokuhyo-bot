@@ -13,7 +13,7 @@ def check(goal):
     content = goal['content']
     blocks = [
         blockkit.section(
-            f'今日の目標 `{content}` は達成できたかな？\n（今できていなくても、すぐにできそうであれば、実行して「できた！✋」を押そう）'),
+            f'今日の目標 `{content}` は達成できましたか？\n（まだできていなくても、すぐにできそうであれば、実行して「できた！✋」を押そう）'),
         blockkit.actions([
             blockkit.button('できた！✋', 'completed', 'True', style='primary'),
             blockkit.button('できなかった…', 'completed', 'False'),
