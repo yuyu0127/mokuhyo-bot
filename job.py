@@ -3,6 +3,7 @@ import os
 import blockkit
 import db
 import slackapi
+from localization import l8n
 
 __import__('dotenv').load_dotenv()
 WEBHOOK_URL = os.environ.get('WEBHOOK_URL')
@@ -13,10 +14,11 @@ def check(goal):
     content = goal['content']
     blocks = [
         blockkit.section(
-            f'今日の目標 `{content}` は達成できましたか？\n（まだできていなくても、すぐにできそうであれば、実行して「できた！✋」を押そう）'),
+            l8n['confirmDone'].format(content=content)),
         blockkit.actions([
-            blockkit.button('できた！✋', 'completed', 'True', style='primary'),
-            blockkit.button('できなかった…', 'completed', 'False'),
+            blockkit.button(l8n['doneButton'], 'completed',
+                            'True', style='primary'),
+            blockkit.button(l8n['notDoneButton'], 'completed', 'False'),
         ])
     ]
     res = slackapi.post_direct_message(user_id, blocks=blocks)

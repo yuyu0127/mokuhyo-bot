@@ -5,6 +5,7 @@ import db
 import os
 import slackapi
 from datetime import datetime
+from localization import l8n
 app = Flask(__name__)
 
 __import__('dotenv').load_dotenv()
@@ -23,10 +24,11 @@ def handle_command():
     if type == '/mokuhyo':
         db.register_goal(datetime.now(), user_id, text)
         blocks = [
-            blockkit.section(f'今日の目標は `{text}` だね！\nみんなに宣言する？'),
+            blockkit.section(l8n["confirmDeclare"].format(text=text)),
             blockkit.actions([
-                blockkit.button('する！✋', 'declare', 'True', style='primary'),
-                blockkit.button('しない', 'declare', 'False'),
+                blockkit.button(l8n['declareButton'],
+                                'declare', 'True', style='primary'),
+                blockkit.button(l8n['notDeclareButton'], 'declare', 'False'),
             ])
         ]
         json_dict = {
@@ -50,13 +52,15 @@ def handle_interactive():
 
     if act_value == 'declare' and act_id == 'True':
         goal = db.fetch_goal(user_id)
-        text = f'<@{user_id}> さんが、目標 `{goal["content"]}` を宣言しました！📝'
+        text = l8n['broadcastDeclare'].format(
+            user_id=user_id, content=goal['content'])
         slackapi.webhook_message(WEBHOOK_URL, text=text)
     if act_value == 'completed':
         if act_id == 'True':
             db.set_completed(user_id, True)
             goal = db.fetch_goal(user_id)
-            text = f'<@{user_id}> さんが、目標 `{goal["content"]}` を達成したようです😊'
+            text = l8n['broadcastDone'].format(
+                user_id=user_id, content=goal['content'])
             slackapi.webhook_message(WEBHOOK_URL, text=text)
         else:
             db.set_completed(user_id, False)
