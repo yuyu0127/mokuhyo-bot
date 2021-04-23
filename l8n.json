@@ -2,7 +2,7 @@
     "confirmDone": "今日の目標 `{content}` は達成できたかな？\n（まだできていなくても、すぐにできそうであれば、実行して「できた！✋」を押そう）",
     "doneButton": "できた！✋",
     "notDoneButton": "できなかった…",
-    "confirmDeclare": "今日の目標は `{text}` だね！\nみんなに宣言する？",
+    "confirmDeclare": "今日の目標は `{content}` だね！\nみんなに宣言する？",
     "declareButton": "する！✋",
     "notDeclareButton": "しない",
     "broadcastDeclare": "<@{user_id}> さんが、目標 `{content}` を宣言しました！📝",
