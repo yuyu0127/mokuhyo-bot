@@ -69,6 +69,7 @@ def handle_interactive():
     # 目標宣言ボタンへの対応に対する処理
     if act_value == 'declare':
         goal = db.fetch_goal(user_id)
+        print(goal)
 
         # 目標を宣言するボタンが押された時
         if act_id == 'True':
@@ -87,6 +88,7 @@ def handle_interactive():
     # 目標達成ボタンへの対応に対する処理
     if act_value == 'completed':
         goal = db.fetch_goal(user_id)
+        print(goal)
 
         # 目標達成できたボタンが押された時
         if act_id == 'True':
