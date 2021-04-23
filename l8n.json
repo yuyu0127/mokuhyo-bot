@@ -6,5 +6,5 @@
     "declareButton": "する！✋",
     "notDeclareButton": "しない",
     "broadcastDeclare": "<@{user_id}> さんが、目標 `{content}` を宣言しました！📝",
-    "broadcastDone": "'<@{user_id}> さんが、目標 `{content}` を達成したようです😊'"
+    "broadcastDone": "<@{user_id}> さんが、目標 `{content}` を達成したようです😊"
 }
