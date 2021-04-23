@@ -67,12 +67,13 @@ def handle_interactive():
             db.set_completed(user_id, False)
 
     resp_payload = {
-        'text': '',
-        'delete_original': True
+        "response_type": "ephemeral",
+        "replace_original": False,
+        "text": "Sorry, that didn't work. Please try again."
     }
-    return Response(response=json.dumps(resp_payload),
-                    mimetype="application/json",
-                    status=200)
+    slackapi.respond(resp_url, **resp_payload)
+
+    return '', 200
 
 
 if __name__ == '__main__':

@@ -72,3 +72,8 @@ def fetch_im_channel_id(user_id):
     if 'channel' in res_json:
         return res_json['channel']['id']
     raise Exception('DMチャンネルの取得中にエラーが発生しました', res_json)
+
+
+def respond(response_url, **kwargs):
+    requests.post(response_url, data=json.dumps(kwargs).encode(
+        'utf8'), headers={'Content-Type': 'application/json;charset=UTF-8'})
