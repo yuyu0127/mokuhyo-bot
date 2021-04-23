@@ -84,7 +84,7 @@ def handle_interactive():
 
         # 共通処理としてボタンを消す
         slackapi.respond(
-            resp_url, text=l8n['confirmDeclare'].format(text=content), replace_original=True)
+            resp_url, text=l8n['confirmDeclare'].format(content=content), replace_original=True)
 
     # 目標達成ボタンへの対応に対する処理
     if act_value == 'completed':
