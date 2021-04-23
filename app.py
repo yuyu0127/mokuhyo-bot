@@ -43,7 +43,8 @@ def handle_command():
 @app.route('/interactive', methods=['POST'])
 def handle_interactive():
     payload = json.loads(request.form.to_dict()['payload'])
-    print('Interactive Payload', payload)
+    print('Interactive Payload', json.dumps(
+        payload, ensure_ascii=False, indent=4))
     resp_url = payload['response_url']
     action = payload['actions'][0]
     act_value = action['value']
@@ -66,7 +67,7 @@ def handle_interactive():
             db.set_completed(user_id, False)
 
     resp_payload = {
-        'text': '',
+        'text': 'TEST',
         'delete_original': True
     }
     return jsonify(resp_payload), 200
