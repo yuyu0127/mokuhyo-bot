@@ -51,25 +51,43 @@ def handle_interactive():
     act_id = action['action_id']
     user_id = payload['user']['id']
 
+    # 目標宣言ボタンへの対応に対する処理
     if act_value == 'declare':
         goal = db.fetch_goal(user_id)
+
+        # 目標を宣言するボタンが押された時
         if act_id == 'True':
             text = l8n['broadcastDeclare'].format(
                 user_id=user_id, content=goal['content'])
             slackapi.webhook_message(WEBHOOK_URL, text=text)
+
+        # 目標を宣言しないボタンが押された時
         else:
             pass
+
+        # 共通処理としてボタンを消す
         slackapi.respond(
             resp_url, text=l8n['confirmDeclare'].format(text=goal['content']), replace_original=True)
+
+    # 目標達成ボタンへの対応に対する処理
     if act_value == 'completed':
         goal = db.fetch_goal(user_id)
+
+        # 目標達成できたボタンが押された時
         if act_id == 'True':
+            # 達成フラグをTrueに設定
             db.set_completed(user_id, True)
+            # 達成できたことをチャンネルに投稿
             text = l8n['broadcastDone'].format(
                 user_id=user_id, content=goal['content'])
             slackapi.webhook_message(WEBHOOK_URL, text=text)
+
+        # 目標達成できなかったボタンが押された時
         else:
+            # 達成フラグをFalseに設定
             db.set_completed(user_id, False)
+
+        # 共通処理としてボタンを消す
         slackapi.respond(
             resp_url, text=l8n['confirmDone'].format(content=goal['content']), replace_original=True)
 

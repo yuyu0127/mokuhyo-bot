@@ -15,7 +15,7 @@ def register_goal(created_at, user_id, content):
     with get_connection() as conn:
         with conn.cursor() as cur:
             cur.execute(
-                'INSERT INTO goal (created_at, user_id, content, completed) VALUES (%s, %s, %s, NULL)', (created_at, user_id, content))
+                'INSERT INTO goal (created_at, user_id, content, completed, checked) VALUES (%s, %s, %s, FALSE, FALSE)', (created_at, user_id, content))
         conn.commit()
 
 
@@ -24,6 +24,14 @@ def set_completed(user_id, flag):
         with conn.cursor() as cur:
             cur.execute(
                 'UPDATE goal SET completed = %s WHERE user_id = %s AND id = (SELECT max(id) FROM goal)', (flag, user_id))
+        conn.commit()
+
+
+def set_checked(user_id, flag):
+    with get_connection() as conn:
+        with conn.cursor() as cur:
+            cur.execute(
+                'UPDATE goal SET checked = %s WHERE user_id = %s AND id = (SELECT max(id) FROM goal)', (flag, user_id))
         conn.commit()
 
 

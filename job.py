@@ -21,6 +21,7 @@ def check(goal):
             blockkit.button(l8n['notDoneButton'], 'completed', 'False'),
         ])
     ]
+    db.set_checked(user_id, True)
     res = slackapi.post_direct_message(user_id, blocks=blocks)
     return res
 
@@ -28,7 +29,7 @@ def check(goal):
 for goal in db.fetch_goals():
     print(goal)
     try:
-        if goal['completed'] == None:
+        if goal['checked'] == False:
             check(goal)
     except Exception as e:
         print(e)
