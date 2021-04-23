@@ -55,21 +55,19 @@ def handle_interactive():
         goal = db.fetch_goal(user_id)
         text = l8n['broadcastDeclare'].format(
             user_id=user_id, content=goal['content'])
-        # slackapi.webhook_message(WEBHOOK_URL, text=text)
+        slackapi.webhook_message(WEBHOOK_URL, text=text)
     if act_value == 'completed':
         if act_id == 'True':
             db.set_completed(user_id, True)
             goal = db.fetch_goal(user_id)
             text = l8n['broadcastDone'].format(
                 user_id=user_id, content=goal['content'])
-            # slackapi.webhook_message(WEBHOOK_URL, text=text)
+            slackapi.webhook_message(WEBHOOK_URL, text=text)
         else:
             db.set_completed(user_id, False)
 
     resp_payload = {
-        "response_type": "ephemeral",
-        "replace_original": False,
-        "text": "Sorry, that didn't work. Please try again."
+        'delete_original': True
     }
     slackapi.respond(resp_url, **resp_payload)
 
