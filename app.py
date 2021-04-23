@@ -51,11 +51,16 @@ def handle_interactive():
     act_id = action['action_id']
     user_id = payload['user']['id']
 
-    if act_value == 'declare' and act_id == 'True':
-        goal = db.fetch_goal(user_id)
-        text = l8n['broadcastDeclare'].format(
-            user_id=user_id, content=goal['content'])
-        slackapi.webhook_message(WEBHOOK_URL, text=text)
+    if act_value == 'declare':
+        if act_id == 'True':
+            goal = db.fetch_goal(user_id)
+            text = l8n['broadcastDeclare'].format(
+                user_id=user_id, content=goal['content'])
+            slackapi.webhook_message(WEBHOOK_URL, text=text)
+        else:
+            pass
+        slackapi.respond(
+            resp_url, text=l8n['confirmDeclare'], replace_original=True)
     if act_value == 'completed':
         if act_id == 'True':
             db.set_completed(user_id, True)
@@ -65,11 +70,8 @@ def handle_interactive():
             slackapi.webhook_message(WEBHOOK_URL, text=text)
         else:
             db.set_completed(user_id, False)
-
-    resp_payload = {
-        'delete_original': True
-    }
-    slackapi.respond(resp_url, **resp_payload)
+        slackapi.respond(
+            resp_url, text=l8n['confirmDone'], replace_original=True)
 
     return '', 200
 
