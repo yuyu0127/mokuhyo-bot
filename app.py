@@ -68,7 +68,8 @@ def handle_interactive():
 
     resp_payload = {
         'text': 'TEST',
-        'delete_original': True
+        'replace_original': True,
+        # 'delete_original': True
     }
     return jsonify(resp_payload), 200
 
