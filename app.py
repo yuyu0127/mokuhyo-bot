@@ -24,7 +24,7 @@ def handle_command():
     if type == '/mokuhyo':
         db.register_goal(datetime.now(), user_id, text)
         blocks = [
-            blockkit.section(l8n["confirmDeclare"].format(text=text)),
+            blockkit.section(l8n["confirmDeclare"].format(content=text)),
             blockkit.actions([
                 blockkit.button(l8n['declareButton'],
                                 'declare', 'True', style='primary'),
@@ -52,26 +52,26 @@ def handle_interactive():
     user_id = payload['user']['id']
 
     if act_value == 'declare':
+        goal = db.fetch_goal(user_id)
         if act_id == 'True':
-            goal = db.fetch_goal(user_id)
             text = l8n['broadcastDeclare'].format(
                 user_id=user_id, content=goal['content'])
             slackapi.webhook_message(WEBHOOK_URL, text=text)
         else:
             pass
         slackapi.respond(
-            resp_url, text=l8n['confirmDeclare'], replace_original=True)
+            resp_url, text=l8n['confirmDeclare'].format(text=goal['content']), replace_original=True)
     if act_value == 'completed':
+        goal = db.fetch_goal(user_id)
         if act_id == 'True':
             db.set_completed(user_id, True)
-            goal = db.fetch_goal(user_id)
             text = l8n['broadcastDone'].format(
                 user_id=user_id, content=goal['content'])
             slackapi.webhook_message(WEBHOOK_URL, text=text)
         else:
             db.set_completed(user_id, False)
         slackapi.respond(
-            resp_url, text=l8n['confirmDone'], replace_original=True)
+            resp_url, text=l8n['confirmDone'].format(content=goal['content']), replace_original=True)
 
     return '', 200
 
