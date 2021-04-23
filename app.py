@@ -66,9 +66,7 @@ def handle_interactive():
             db.set_completed(user_id, False)
 
     resp_payload = {
-        'response_type': 'ephemeral',
         'text': '',
-        'replace_original': True,
         'delete_original': True
     }
     return jsonify(resp_payload), 200
