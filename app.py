@@ -14,15 +14,22 @@ WEBHOOK_URL = os.environ.get('WEBHOOK_URL')
 
 @app.route('/command', methods=['POST'])
 def handle_command():
+    '''
+    スラッシュコマンドをハンドリングする
+    '''
     payload = request.form.to_dict()
-    print(payload)
-    workspace_name: str = payload['team_domain']
+    print('[Command Payload]\n', json.dumps(
+        payload, ensure_ascii=False, indent=4))
+
     user_id: str = payload['user_id']
     type: str = payload['command']
     text: str = payload['text']
 
     if type == '/mokuhyo':
+        # DBにデータを登録
         db.register_goal(datetime.now(), user_id, text)
+
+        # 宣言するかの確認ボタンを送信
         blocks = [
             blockkit.section(l8n["confirmDeclare"].format(content=text)),
             blockkit.actions([
@@ -37,14 +44,19 @@ def handle_command():
             'blocks': blocks
         }
         return jsonify(json_dict), 200
+
     return '', 200
 
 
 @app.route('/interactive', methods=['POST'])
 def handle_interactive():
+    '''
+    ボタンなどへのアクションをハンドリングする
+    '''
     payload = json.loads(request.form.to_dict()['payload'])
-    print('Interactive Payload', json.dumps(
+    print('[Interactive Payload]\n', json.dumps(
         payload, ensure_ascii=False, indent=4))
+
     resp_url = payload['response_url']
     action = payload['actions'][0]
     act_value = action['value']
